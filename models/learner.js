@@ -16,6 +16,8 @@ const LearnerSchema = new mongoose.Schema({
     country: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
     
+},{
+    versionKey:false
 });
 
 

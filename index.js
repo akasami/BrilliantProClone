@@ -14,10 +14,13 @@ require('./config/dbconfig');
 
 // Importing All Router Api's
 var LearnerApis = require('./routes/LearnerApi');
-
+var CourseApis = require('./routes/CoursesApis');
+var EnrollmentApis = require('./routes/EnrollmentApis');
 
 // Routed Api
 app.use('/learners',LearnerApis);
+app.use('/enrollments',EnrollmentApis);
+app.use('/courses',CourseApis);
 
 
 // listening @ 5000 port
