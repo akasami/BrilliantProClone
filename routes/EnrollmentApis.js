@@ -42,7 +42,7 @@ router.route("/add").post(async (req, resp) => {
 );
 
 // How many learners are enrolled in the course
-router.route("/get/:courseid").get(async (req, resp) => {
+router.route("/getenrolledlearnercount/:courseid").get(async (req, resp) => {
     try {
         console.log("Route~Enrollment/get");
         console.table(req.body);
