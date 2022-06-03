@@ -16,6 +16,7 @@ const CourseSchema = new mongoose.Schema({
     subcategory : { type: String, required: true },
     tags : { type: String, required: true },
     rating : { type: String, default: "NULL" },
+    materialCount : { type: Number , default: 0 },
 
 },{
     versionKey:false
