@@ -53,6 +53,36 @@ router.route("/add").post(async (req, resp) => {
 } );
 
 
+// create route to get course by id
+router.route("/get/:_id").get(async (req, resp) => {
+    try {
+        console.log("Route~Course/get");
+        
+
+        // regex to check if the id is valid
+        const reg = /^[0-9a-fA-F]{24}$/;
+        if (!reg.test(req.params._id)) {
+            resp.status(400).send("Invalid id");
+        }
+
+        let result = await Course.findById({_id:req.params._id});
+        if (result == null) {
+            resp.status(201).send("Course not found");
+        }
+        else {
+            resp.status(200).json(result);
+        }
+
+
+    } catch (err) {
+        console.warn(err);
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+
+    }
+
+});
+
+
 // create route to get all courses
 router.route("/getall").get(async (req, resp) => {
     try {
