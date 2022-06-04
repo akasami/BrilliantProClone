@@ -64,6 +64,29 @@ router.post(
   }
 );
 
+router.route("/getcount").get(async (req, resp) => {
+  try {
+      console.log("Route~material/getcount");
+      
+
+      let result = await Material.countDocuments({});
+
+      if (result == null) {
+          resp.status(201).send("No Material found");
+      }
+      else {
+          console.log(result);
+          resp.status(200).json(result);
+      }
+
+  } catch (err) {
+      console.warn(err);
+      resp.status(404).json("Err"); // Sending res to client some err occured.
+
+  }
+});
+
+
 // create route to get all the material based on courseid
 router.route("/getall/:courseid").get(async (req, resp) => {
   try {

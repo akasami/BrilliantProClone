@@ -157,5 +157,11 @@ router.route("/getpassedlearner/:courseid").get(async (req, resp) => {
 }
 );
 
+// create a patch route to update the status to passed of an enrollment
+
+
+
+
+
 
 module.exports = router;

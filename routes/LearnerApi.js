@@ -42,6 +42,29 @@ router.route("/add").post(async (req, resp) => {
   }
 });
 
+router.route("/getcount").get(async (req, resp) => {
+    try {
+        console.log("Route~Learner/getcount");
+        
+
+        let result = await Learner.countDocuments({});
+
+        if (result == null) {
+            resp.status(201).send("No learners found");
+        }
+        else {
+            console.log(result);
+            resp.status(200).json(result);
+        }
+
+    } catch (err) {
+        console.warn(err);
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+
+    }
+});
+
+
 // create route for get a learner
 router.route("/get/:_id").get(async (req, resp) => {
     try {

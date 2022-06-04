@@ -105,6 +105,31 @@ router.route("/getall").get(async (req, resp) => {
 }
 );
 
+// create a route to get the count of the courses
+router.route("/getcount").get(async (req, resp) => {
+    try {
+        console.log("Route~Course/getcount");
+        
+
+        let result = await Course.countDocuments({});
+
+        if (result == null) {
+            resp.status(201).send("No courses found");
+        }
+        else {
+            console.log(result);
+            resp.status(200).json(result);
+        }
+
+    } catch (err) {
+        console.warn(err);
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+
+    }
+});
+
+
+
 // create route for removing a course by id
 router.route("/remove/:id").delete(async (req, resp) => {
     try {
