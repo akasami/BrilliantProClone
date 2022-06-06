@@ -16,8 +16,9 @@ router.route("/add").post(async (req, resp) => {
         const setid = new mongoose.Types.ObjectId();
 
         // create a date object of current date
-        const date = new Date();
-        const issueDate = date.toISOString();
+        
+        
+        const issueDate = new Date().toISOString().slice(0, 10);
 
 
         const enrollmentdata = new Enrollment({
@@ -36,6 +37,63 @@ router.route("/add").post(async (req, resp) => {
         }
     } catch (err) {
         console.warn(err);
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+    }
+}
+);
+
+// make route to get enrollment by id
+router.route("/get/:_id").get(async (req, resp) => {
+    try {   
+        console.log("Route~Enrollment/get");
+        console.table(req.params);
+        const _id = req.params._id;
+        let result = await Enrollment.findById(_id);
+        if (result == null) {
+            resp.status(201).send("Enrollment not found");
+        } else {
+            resp.status(200).json(result);
+        }
+    } catch (err) {
+        console.warn(err);
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+    }
+}
+);
+
+
+// make route to get all enrollments
+router.route("/getall").get(async (req, resp) => {
+    try {
+        console.log("Route~Enrollment/getall");
+        let result = await Enrollment.find();
+        if (result == null) {
+            resp.status(201).send("Enrollment not found");
+        } else {
+            resp.status(200).json(result);
+        }
+    } catch (err) {
+        console.warn(err);
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+    }
+}
+);
+
+// make route to get all enrollments in a course 
+router.route("/getallincourse/:courseid").get(async (req, resp) => {
+    try {
+        console.log("Route~Enrollment/getall");
+        console.table(req.params);
+        const courseid = req.params.courseid;
+        let result = await Enrollment.find({courseid:courseid});
+        if (result == null) {
+            resp.status(201).send("Enrollments not found");
+        } else {
+            resp.status(200).json(result);
+        }
+    } catch (err) {
+        console.warn(err);
+
         resp.status(404).json("Err"); // Sending res to client some err occured.
     }
 }
@@ -129,6 +187,7 @@ router.route("/getcourseprogress50/:courseid").get(async (req, resp) => {
 
 // How many learned are passed and failed.
 router.route("/getpassedlearner/:courseid").get(async (req, resp) => {
+    
     try {
         console.log("Route~Enrollment/getlearnerevaluation");
         console.table(req.body);
@@ -157,7 +216,32 @@ router.route("/getpassedlearner/:courseid").get(async (req, resp) => {
 }
 );
 
-// create a patch route to update the status to passed of an enrollment
+// create a route to remove enrollment based on id
+router.route("/remove/:_id").delete(async (req, resp) => {
+    try {
+        console.log("Route~Enrollment/remove");
+        console.table(req.params);
+
+        // regex to check if the id is valid
+        const reg = /^[0-9a-fA-F]{24}$/;
+        if (!reg.test(req.params._id)) {
+            resp.status(400).send("Invalid id");
+        }
+
+        let result = await Enrollment.findByIdAndRemove(req.params._id);
+        if (result == null) {
+            resp.status(201).send("Enrollment not found");
+        } else {
+            resp.status(200).json(result);
+        }
+    } catch (err) {
+        console.warn(err);
+
+        resp.status(404).json("Err"); // Sending res to client some err occured.
+    }
+}
+);
+
 
 
 

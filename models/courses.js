@@ -6,12 +6,11 @@ const { required } = require('nodemon/lib/config');
 const CourseSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     title: { type: String, required: true },
-    lecturesCount: { type: String, required: true },
     author: { type: String, required: true },
     issueDate : { type: String, required: true }, // provided by the server
     price : { type: String, required: true },
     description : { type: String, required: true },
-    image : { type: String, required: true },
+    image : { type: String , default: "uploads/77755e565ef7ddbff2546231cd8732bf.jpg" },
     category : { type: String, required: true },
     subcategory : { type: String, required: true },
     tags : { type: String, required: true },

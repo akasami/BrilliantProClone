@@ -6,30 +6,43 @@ const mongoose = require("mongoose");
 const Course = require("../models/courses");
 require("../config/dbconfig");
 
+const {
+    upload,
+    fileFilter,
+    storage,
+    multer,
+    uploadCourseMaterial,
+  } = require("../helper/fileuploading.js");
+  require("../helper/fileuploading");
+
+
 // create route to add a course
-router.route("/add").post(async (req, resp) => {
+
+ router.post(
+  "/add",
+  upload.single("image"),
+  async (req, resp, next) => {
+//router.route("/add").post(async (req, resp) => {
     try {
         console.log("Route~Course/add");
         console.table(req.body);
+        console.log("File",req.file);
+        console.log("File Path",req.file.path);
 
         Course.init();
         const setid = new mongoose.Types.ObjectId();
 
         // create a date object of current date
-        const date = new Date();
-        const issueDate = date.toISOString();
-
-
-
+        const issueDate = new Date().toISOString().slice(0, 10);
+      
         const coursedata = new Course({
             _id: setid,
             title: req.body.title,
-            lecturesCount: req.body.lecturesCount,
             author: req.body.author,
             issueDate: issueDate,
             price: req.body.price,
             description: req.body.description,
-            image: req.body.image,
+            image : req.file.path,
             category: req.body.category,
             subcategory: req.body.subcategory,
             tags: req.body.tags

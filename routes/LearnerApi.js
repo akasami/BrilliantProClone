@@ -26,7 +26,7 @@ router.route("/add").post(async (req, resp) => {
       state: req.body.state,
       zip: req.body.zip,
       country: req.body.country,
-      dateOfBirth: req.body.dateOfBirth,
+      dateOfBirth: req.body.birthdate,
     });
 
     let result = await learnerdata.save();
